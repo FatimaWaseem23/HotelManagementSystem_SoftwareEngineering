@@ -1,0 +1,260 @@
+﻿@using System.Data;
+@model DataSet
+@{
+    var _dtUsers = Model.Tables[0];
+}
+<div class="container-fluid">
+    <!-- begin row -->
+    <div class="row">
+        <div class="col-md-12 m-b-30">
+            <!-- begin page title -->
+            <div class="d-block d-lg-flex flex-nowrap align-items-center">
+                <div class="breadcrumb-bar align-items-center">
+                    <nav>
+                        <ol class="breadcrumb p-0 m-b-0">
+                            <li class="breadcrumb-item">
+                                <a href="../Home/"><i class="ti ti-home"></i></a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                Form
+                            </li>
+                            <li class="breadcrumb-item active text-primary" aria-current="page">Create User</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <!-- end page title -->
+        </div>
+    </div>
+    <!-- begin row -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-statistics">
+                <div class="card-header">
+                    <div class="card-heading">
+                        <h4 class="card-title"><span id="mainHead">Create User</span></h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputAddress"><span class="errMsg">* </span>User Full Name</label>
+                                <input type="text" class="form-control" id="userFullName" placeholder="Name">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4"><span class="errMsg">*&nbsp;</span>Email ID</label>
+                                <input type="email" class="form-control" id="userEmailID" placeholder="Email">
+                            </div>
+
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4"><span class="errMsg">*&nbsp;</span>UserName</label>
+                                <input type="text" class="form-control" id="userLoginID" placeholder="">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4"><span id="mandPassword" class="errMsg">*&nbsp;</span>Password</label>
+                                <input type="text" class="form-control" id="userPassword" placeholder="Password">
+                            </div>
+
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputCity"><span class="errMsg">*&nbsp;</span>User Type</label>
+                                <select onchange="EnableTeam()" id="userType" class="form-control">
+                                    <option value="-1" selected>Select User Type</option>
+                                    <option>Admin</option>
+                                    <option>Receptionist</option>
+                                    <option>Customer</option>
+                                </select>
+                            </div>
+                           
+
+                        </div>
+                        <button type="button" onclick="CreateUsers()" class="btn btn-primary createClass">Create User</button>
+                        <button type="button" onclick="UpdateUsers()" class="btn btn-primary editClass">Edit User</button>
+                        <button type="button" onclick="CancelUser()" class="btn btn-primary editClass">Cancel</button>
+                        <span id="errMsg" style="display:none;" class="errMsg">* Please fill all mandatory (*) fields</span>
+                        <input type="hidden" id="hdnUserID" />
+                        <div class="alert alert-primary" id="dvMessage" style="display:none;margin-top: 10px;" role="alert"></div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <style>
+        .editClass
+        {
+            display:none;
+        }
+
+        .errMsg {
+            font-size: 12px;
+            color: red;
+            font-style: italic;
+        }
+    </style>
+    <script>
+
+        function UpdateUsers() {
+            var _userFullName = $("#userFullName").val();
+            var _userEmailID = $("#userEmailID").val();
+            var _userPassword = $("#userPassword").val();
+            var _userID = $("#hdnUserID").val();
+            var _userType = $("#userType").val();
+
+            if (_userFullName == "" || _userEmailID == "" || _userType == "-1") {
+                $("#errMsg").show();
+                return false;
+            }
+            else {
+                $("#errMsg").hide();
+            }
+
+            $.ajax({
+                url: '../Home/_UpdateUsers',
+                type: "GET",
+                data: {
+                    userID: _userID,
+                    userFullName: _userFullName,
+                    userEmailID: _userEmailID,
+                    userPassword: _userPassword,
+                    userType: _userType
+                },
+                success: function (result) {
+                    if (result == "Updated") {
+                        CancelUser();
+                        $("#dvMessage").html("User Updated Successfully!!").addClass("alert-primary").removeClass("alert-danger").show().fadeOut(3000);
+                        setTimeout(function () {// wait for 5 secs(2)
+                            location.reload(); // then reload the page.(3)
+                        }, 3000);
+                    }
+                    else {
+                        $("#dvMessage").html(result).addClass("alert-danger").removeClass("alert-primary").show().fadeOut(3000);
+                    }
+                },
+                error: function (err) {
+                    alert(err.statusText);
+                }
+            });
+        }
+
+        function CancelUser() {
+            $("#mainHead").html("Create User");
+            $(".editClass").hide();
+            $(".createClass").show();
+
+            $("#userFullName").val("");
+            $("#userEmailID").val("");
+            $("#userLoginID").val("").prop('disabled', false);
+            $("#userPassword").val("");
+            $("#mandPassword").show();
+        }
+
+        function EditUser(userID, elem) {
+            debugger;
+            $("#hdnUserID").val(userID);
+            $("#userFullName").val($($(elem).parent().parent().find("td")[1]).html());
+            $("#userEmailID").val($($(elem).parent().parent().find("td")[2]).html());
+            $("#userLoginID").val($($(elem).parent().parent().find("td")[0]).html()).prop('disabled', true);
+            $("#userPassword").val("");
+            $("#mandPassword").hide();
+            
+            $("#userType").val($($(elem).parent().parent().find("td")[3]).html().trim());
+            
+            $("#mainHead").html("Edit User");
+            $(".editClass").show();
+            $(".createClass").hide();
+        }
+
+        function CreateUsers() {
+            debugger;
+            var _userFullName = $("#userFullName").val();
+            var _userEmailID = $("#userEmailID").val();
+            var _userLoginID = $("#userLoginID").val();
+            var _userPassword = $("#userPassword").val();
+            var _userType = $("#userType").val();
+            
+            if (_userFullName == "" || _userEmailID == "" || _userLoginID == "" || _userPassword == "" || _userType == "-1") {
+                $("#errMsg").show();
+                return false;
+            }
+            else {
+                $("#errMsg").hide();
+            }
+
+
+            $.ajax({
+                url: '../Home/_CreateUsers',
+                type: "GET",
+                data: {
+                    userFullName: _userFullName,
+                    userEmailID: _userEmailID,
+                    userLoginID: _userLoginID,
+                    userPassword: _userPassword,
+                    userType: _userType
+                },
+                success: function (result) {
+                    if (result == "Added") {
+                        $("#dvMessage").html("User Created Successfully!!").addClass("alert-primary").removeClass("alert-danger").show().fadeOut(3000);
+                        setTimeout(function () {// wait for 5 secs(2)
+                            location.reload(); // then reload the page.(3)
+                        }, 3000);
+                    }
+                    else {
+                        $("#dvMessage").html("Login ID already exist!!").addClass("alert-danger").removeClass("alert-primary").show().fadeOut(3000);
+                    }
+                },
+                error: function (err) {
+                    alert(err.statusText);
+                }
+            });
+        }
+
+    </script>
+
+    <div class="col-12 col-lg-12">
+        <div class="card card-statistics">
+            <div class="card-header">
+                <div class="card-heading">
+                    <h4 class="card-title">List of Users</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="dvUserList" class="table-responsive">
+
+                    <table class="table mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Login ID</th>
+                                <th scope="col">Full Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">User Type</th>
+                                <th scope="col">Creation Date</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (DataRow row in _dtUsers.Rows)
+                            {
+                            <tr>
+                                <td>@row["UserName"].ToString()</td>
+                                <td>@row["UserFullName"].ToString()</td>
+                                <td>@row["Email"].ToString()</td>
+                                <td>@row["UserType"].ToString()</td>
+                                <td>@row["Creation_Date"].ToString()</td>
+                                <td><a onclick="EditUser(@row["UserID"].ToString(),this)">Edit</a></td>
+                            </tr>
+                            }
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

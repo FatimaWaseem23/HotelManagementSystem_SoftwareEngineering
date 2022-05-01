@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Roomers - Hotel Room Booking System</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- app favicon -->
+    <link rel="shortcut icon" href="~/Content/assets/img/roomers_favIcon.png">
+    <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <!-- plugin stylesheets -->
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/css/vendors.css" />
+    <!-- app style -->
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/css/style.css" />
+</head>
+<body>
+    <!-- begin app -->
+    <div class="app">
+        <!-- begin app-wrap -->
+        <div class="app-wrap">
+            <!-- begin pre-loader -->
+           
+            <!-- end pre-loader -->
+            <!-- begin app-header -->
+            <header class="app-header top-bar">
+                <!-- begin navbar -->
+                <nav class="navbar navbar-expand-md">
+                    <!-- begin navbar-header -->
+                    <div class="navbar-header d-flex align-items-center">
+                        <a href="javascript:void:(0)" class="mobile-toggle"><i class="ti ti-align-right"></i></a>
+                        <a class="navbar-brand" href="index.html">
+                            <img src="~/Content/assets/img/roomers_logo.png" style="width: 75px;margin-top: 10px;margin-left:50px" class="img-fluid logo-desktop" alt="logo" />
+                            <img src="~/Content/assets/img/roomers_logo.png" class="img-fluid logo-mobile" alt="logo" />
+                        </a>
+                    </div>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="ti ti-align-left"></i>
+                    </button>
+                    <!-- end navbar-header -->
+                    <!-- begin navigation -->
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <div class="navigation d-flex">
+                            <ul class="navbar-nav nav-left">
+                                <li class="nav-item">
+                                    <a href="javascript:void(0)" class="nav-link sidebar-toggle">
+                                        <i class="ti ti-align-right"></i>
+                                    </a>
+                                </li>
+                                <li class="nav-item full-screen d-none d-lg-block" id="btnFullscreen">
+                                    <a href="javascript:void(0)" class="nav-link expand">
+                                        <i class="icon-size-fullscreen"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="navbar-nav nav-right ml-auto">
+                               
+                                <li class="nav-item">
+                                    <a class="nav-link search" href="javascript:void(0)">
+                                        <i class="ti ti-search"></i>
+                                    </a>
+                                    <div class="search-wrapper">
+                                        <div class="close-btn">
+                                            <i class="ti ti-close"></i>
+                                        </div>
+                                        <div class="search-content">
+                                            <form>
+                                                <div class="form-group">
+                                                    <i class="ti ti-search magnifier"></i>
+                                                    <input type="text" class="form-control autocomplete" placeholder="Search Here" id="autocomplete-ajax" autofocus="autofocus">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="nav-item dropdown user-profile">
+                                    <a href="javascript:void(0)" class="nav-link dropdown-toggle " id="navbarDropdown4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="~/Content/assets/img/avtar/02.jpg" alt="avtar-img">
+                                        <span class="bg-success user-status"></span>
+                                    </a>
+                                    <div class="dropdown-menu animated fadeIn" aria-labelledby="navbarDropdown">
+                                        <div style="background-color: navy" class="px-4 py-3">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div class="mr-1">
+                                                    <h4 class="text-white mb-0">@Session["UserFullName"]</h4>
+                                                    <small class="text-white">@Session["UserEmail"]</small>
+                                                    </br>
+                                                    <small class="text-white">LoginID: @Session["LoginID"]</small> | 
+                                                             <small class="text-white">User Type: @Session["UserType"]</small>
+                                                </div>
+                                                <a onclick="LogOut()" class="text-white font-20 tooltip-wrapper" data-toggle="tooltip" data-placement="top" title="" data-original-title="Logout">
+                                                    <i class="zmdi zmdi-power"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end navigation -->
+                </nav>
+                <!-- end navbar -->
+            </header>
+            <!-- end app-header -->
+            <!-- begin app-container -->
+            <div class="app-container">
+                <!-- begin app-nabar -->
+                <aside class="app-navbar">
+                    <!-- begin sidebar-nav -->
+                    <div class="sidebar-nav scrollbar scroll_light">
+                        <ul class="metismenu " id="sidebarNav">
+                            <li class="nav-static-title">Booking</li>
+                            <li class="active" id="menu_home"><a href="../Home/" aria-expanded="false"><i class="nav-icon ti ti-pie-chart"></i><span class="nav-title">Booking Page</span></a> </li>
+                            
+                            @if (Session["UserType"] != null && Session["UserType"].ToString().Contains("Admin"))
+                            {
+
+                                <li class="nav-static-title">Admin Controls</li>
+                                <li id="menu_CreateUsers"><a href="../Home/CreateUsers" aria-expanded="false"><i class="nav-icon ti ti-pencil-alt"></i><span class="nav-title">Users</span></a> </li>
+                            }
+
+                        </ul>
+                    </div>
+                    <!-- end sidebar-nav -->
+                </aside>
+                <!-- end app-navbar -->
+                <!-- begin app-main -->
+                <div class="app-main" id="main">
+                    <!-- begin container-fluid -->
+                    @RenderBody()
+                    
+                    <!-- end container-fluid -->
+                </div>
+                <!-- end app-main -->
+            </div>
+            
+            <!-- end app-container -->
+            <!-- begin footer -->
+            <footer class="footer">
+                <div class="row">
+                    <div class="col-12 col-sm-6 text-center text-sm-left">
+                        <p>&copy; Copyright @DateTime.Now.Year.ToString(). All rights reserved.</p>
+                    </div>
+                </div>
+            </footer>
+            <!-- end footer -->
+        </div>
+        <!-- end app-wrap -->
+    </div>
+    <!-- end app -->
+    <!-- plugins -->
+    <script src="~/Content/assets/js/vendors.js"></script>
+    <!-- custom app -->
+
+    <script>
+        function LogOut() {
+            var url = "../Login/LogOut";
+            window.location.href = url
+        }
+
+        $(document).ready(function () {
+
+            try {
+                var pageName = document.location.href.match(/[^\/]+$/)[0];
+                $(".active").removeClass("active");
+
+                if ($("#menu_" + pageName).length > 0) {
+                    $("#menu_" + pageName).addClass("active");
+                }
+                else {
+                    $("#menu_home").addClass("active");
+                }
+            } catch (e) {
+                $("#menu_home").addClass("active");
+            }
+            
+        
+            
+
+
+            
+            // alert("1");
+        });
+    </script>
+</body>
+
+</html>

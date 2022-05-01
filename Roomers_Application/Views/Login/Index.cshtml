@@ -1,0 +1,175 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Roomers - Hotel Room Booking System</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Admin template that can be used to build dashboards for CRM, CMS, etc." />
+    <meta name="author" content="Potenza Global Solutions" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- app favicon -->
+    <link rel="shortcut icon" href="~/Content/assets/img/roomers_favIcon.png">
+    <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <!-- plugin stylesheets -->
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/css/vendors.css" />
+    <!-- app style -->
+    <link rel="stylesheet" type="text/css" href="~/Content/assets/css/style.css" />
+</head>
+<body class="bg-white">
+    <!-- begin app -->
+    <div class="app">
+        <!-- begin app-wrap -->
+        <div class="app-wrap">
+            <!-- begin pre-loader -->
+           
+            <!-- end pre-loader -->
+            <!--start login contant-->
+            <div class="app-contant">
+                <div class="bg-white">
+                    <div class="container-fluid p-0">
+                        <div class="row no-gutters" >
+                            <div class="col-sm-6 col-lg-5 col-xxl-3  align-self-center order-2 order-sm-1" id="dvLoginPage" >
+                                <div class="d-flex align-items-center h-100-vh">
+                                    <div class="login p-50">
+                                        <h1 class="mb-2">Roomers</h1>
+                                        <p>Place to book your hotel rooms efficiently</p>
+                                        <form action="" class="mt-3 mt-sm-5">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label">LoginID*</label>
+                                                        <input id="txtLoginID" type="text" class="form-control" placeholder="Username" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Password*</label>
+                                                        <input id="txtPassword" type="password" class="form-control" placeholder="Password" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="d-block d-sm-flex  align-items-center">
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 mt-3">
+                                                    <a onclick="authenticateUser()" style="color:white;" class="btn btn-primary text-uppercase">Sign In</a>
+                                                    <a id="dvMessage" style="display:none;font-size: 11px;color: red;font-style: italic;float: right;">* Invalid Credentials</a>
+                                                </div>
+                                                <div class="col-12  mt-3">
+                                                    <p>Don't have an account ?<a onclick="OpenSignUp()"> Sign Up</a></p>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-lg-5 col-xxl-3  align-self-center order-2 order-sm-1" id="dvSignUpForm" style="display:none">
+                                <div class="d-flex align-items-center h-100-vh">
+                                    <div class="register p-5">
+                                        <img src="~/Content/assets/img/roomers_logo.png" style="width: 75px;margin-top: 10px;margin-left:50px" class="img-fluid logo-desktop" alt="logo" />
+                                        <h1 class="mb-2">Roomers</h1>
+                                        <p>Place to book your hotel rooms efficiently</p>
+                                        <form class="mt-2 mt-sm-5">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Full Name*</label>
+                                                        <input type="text" class="form-control" placeholder="First Name" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Email*</label>
+                                                        <input type="email" class="form-control" placeholder="Email" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Username*</label>
+                                                        <input type="text" class="form-control" placeholder="Username" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Password*</label>
+                                                        <input type="password" class="form-control" placeholder="Password" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 mt-3">
+                                                    <a class="btn btn-primary text-uppercase">Sign up</a>
+                                                </div>
+                                                <div class="col-12  mt-3">
+                                                    <p>Already have an account ?<a onclick="OpenSignIn()"> Sign In</a></p>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xxl-9 col-lg-7 bg-gradient o-hidden order-1 order-sm-2">
+                                <div class="row align-items-center h-100">
+                                    <div>
+                                        <img class="img-fluid" src="~/Content/assets/img/bg/Login_Bg.jpg" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end login contant-->
+        </div>
+        <!-- end app-wrap -->
+    </div>
+    <!-- end app -->
+    <script>
+
+        function OpenSignUp() {
+            $("#dvSignUpForm").show();
+            $("#dvLoginPage").hide();
+        }
+
+        function OpenSignIn() {
+            $("#dvSignUpForm").hide();
+            $("#dvLoginPage").show();
+        }
+
+
+        function authenticateUser() {
+            var _loginID = $("#txtLoginID").val();
+            var _password = $("#txtPassword").val();
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("_AuthenticateUser")',
+                data: { loginID: _loginID, password: _password }, 
+                dataType: "json",  
+                success: function (response) {  
+                    debugger;
+                    if (response == "loginfailed") {
+                        $("#dvMessage").show();
+                    }
+                    else {
+                        window.location.href = response.redirectToUrl + "/";
+                    }
+                    
+                },  
+                error: function () {  
+                    alert("Error while inserting data");  
+                }  
+            });  
+        }
+    </script>
+    <!-- plugins -->
+    <script src="~/Content/assets/js/vendors.js"></script>
+    <!-- custom app -->
+</body>
+
+</html>
